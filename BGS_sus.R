@@ -1,18 +1,14 @@
-library(rgdal)
+library(sf)
 library(INLA)
 library(ggplot2)
 library(inlabru)
 library(splancs)
 
 #### Data ####
-sbdry       <- readOGR("Scottishbound.shp")                 # scottish boundary   
-covs        <- readOGR("SU_Scotland_with_attributes.shp")   # scottish SU covariates with bedrock etc.
-DFcount     <- readOGR("SU_DFcount.shp")
+sbdry       <- st_read("Scottishbound.shp")                 # scottish boundary 
+covs        <- st_read("SU_Scotland_with_attributes.shp")   # scottish SU covariates with bedrock etc.
+DFcount     <- st_read("SU_DFcount.shp")                    # debris flow shapefile
 
-t.proj     <- CRS("+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=km +no_defs")
-sbdry      <- spTransform(sbdry, t.proj)
-covs       <- spTransform(covs, t.proj)
-DFcount    <- spTransform(DFcount, t.proj)
 
 DFcount <- as.data.frame(cbind(covs$ScotsID, DFcount$Join_Count))
 colnames(DFcount) <- c("ID", "DFcount")
@@ -527,3 +523,4 @@ text(x = 1:nrow(inla.object), y = -0.6, labels = c("SI_SD", "SI_SD (Copy)", "Tem
      srt = 90, adj=1, xpd=TRUE, cex = 1)
 par(op)
 dev.off()
+
