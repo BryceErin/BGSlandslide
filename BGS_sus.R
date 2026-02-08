@@ -15,7 +15,7 @@ colnames(DFcount) <- c("ID", "DFcount")
 
 #### Data prep ####
 DFcount$presence     <- ifelse(DFcount$DFcount>0, 1, 0)
-data                 <- covs@data
+data                 <- covs
 data$presence        <- DFcount$presence
 
 data$y.count         <- as.numeric(DFcount$DFcount)
@@ -523,4 +523,5 @@ text(x = 1:nrow(inla.object), y = -0.6, labels = c("SI_SD", "SI_SD (Copy)", "Tem
      srt = 90, adj=1, xpd=TRUE, cex = 1)
 par(op)
 dev.off()
+
 
